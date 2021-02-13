@@ -6,7 +6,7 @@
 void initialize_p1m_01()
 {
 	/* Pulse sending pins */
-	pinMode(A3, INPUT);
+	pinMode(S_1, INPUT);
 	pinMode(S_2, INPUT);
 	pinMode(S_3, INPUT);
 	pinMode(S_4, INPUT);
@@ -30,7 +30,7 @@ unsigned distance_sensor(int sensor){
   switch (sensor)
   {
     case 1:
-      t = pulseIn(A3, HIGH);
+      t = pulseIn(S_1, HIGH);
       break;
     case 2:
       t = pulseIn(S_2, HIGH);
