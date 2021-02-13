@@ -7,7 +7,7 @@ void setup() {
 }
 
 void loop() {
-  if (distance_sensor(1) == 200)
+  if (distance_sensor(1) < 200)
   {
     digitalWrite(13, HIGH);
   }
