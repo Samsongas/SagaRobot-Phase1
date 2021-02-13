@@ -7,7 +7,7 @@
 #define S_2 A2
 #define S_3 A1
 #define S_4 A0
-#define ECHO 6
+#define TRG 6
 
 /* Initializes all the pins to their
  * corresponding modes.
