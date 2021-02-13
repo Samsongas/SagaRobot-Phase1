@@ -3,10 +3,10 @@
 
 #include <Arduino.h>
 
-#define S_1 A3
-#define S_2 A2
-#define S_3 A1
-#define S_4 A0
+#define S_1 17
+#define S_2 16
+#define S_3 15
+#define S_4 14
 #define TRG 6
 
 /* Initializes all the pins to their
