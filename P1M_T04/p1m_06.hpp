@@ -11,7 +11,7 @@
  * Dummy for testing P1M_T04
  * Serial communication must be initialized.
  */
-void call_PID(int dsmL, int dsmR,
+void call_PID(float dsmL, float dsmR,
               unsigned ddmL, unsigned ddmR)
 {
   Serial.print("\ncall_PID:");
@@ -23,6 +23,7 @@ void call_PID(int dsmL, int dsmR,
   Serial.print(ddmL);
   Serial.print("\nDesired distance motor R: ");
   Serial.print(ddmR);
+  Serial.print("\n");
 }
 
 #endif /* P1M_06_H */

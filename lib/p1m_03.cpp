@@ -48,7 +48,7 @@ void straight_line_movement()
         /* Call PID to stop */
         call_PID(0, 0, 0, 0);
         /* Call PID to turn R radians */
-        unsigned gaps = rot*GAPS_PER_RAD;
+        unsigned gaps = rot*GAPS_PER_RAD/2;
         if (rot > 0)
         {
           call_PID(MAX_SPEED, -MAX_SPEED, gaps, gaps);
