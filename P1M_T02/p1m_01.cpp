@@ -20,7 +20,7 @@ void initialize_p1m_01()
  * by sensor, in mm.
  */
 unsigned distance_sensor(int sensor){
-	/* Send a 10 us pulse trough trigger pin */
+  /* Send a 10 us pulse trough trigger pin */
   digitalWrite(TRG, HIGH);
   delayMicroseconds(10); //10us pulse
   digitalWrite(TRG, LOW);
