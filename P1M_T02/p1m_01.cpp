@@ -42,6 +42,6 @@ unsigned distance_sensor(int sensor){
       t = pulseIn(S_4, HIGH);
       break;
   }
-	unsigned distance = (10*t)/59;
-	return distance;
+  unsigned distance = (10*t)/59;
+  return distance;
 }

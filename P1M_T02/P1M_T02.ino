@@ -4,7 +4,6 @@ void setup() {
   initialize_p1m_01();
   /* LED to test the distance */
   pinMode(13, OUTPUT);
-  Serial.begin(9600); //DEBUG
 }
 
 void loop() {
@@ -16,7 +15,4 @@ void loop() {
   {
     digitalWrite(13, LOW);
   }
-  // DEBUG
-  Serial.print(distance_sensor(1));
-  Serial.print("\n");
 }
