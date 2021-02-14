@@ -5,6 +5,12 @@
 #include <math.h>
 
 #define MAX_SPEED 2*M_PI //rad/s
+#define DIFF_DRV 0.976
+/* 
+ * Number of GAPS per radian
+ * (distance_between_wheels/2) / (pi*wheel_diameter/gaps_per_turn)
+ */
+#define GAPS_PER_RAD (0.013/2)/(M_PI*0.07/20)
 
 /*
  * Checks if straight movement is needed.

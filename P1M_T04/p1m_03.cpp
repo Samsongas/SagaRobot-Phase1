@@ -36,23 +36,31 @@ void straight_line_movement()
       if (rot > M_PI/6 && rot > 0)
       {
         /* Advance with a rotation of -10/24 rad/m */
-        // Call PID
+        call_PID(MAX_SPEED, MAX_SPEED*DIFF_DRV, 0, 0);
       }
       /* If the rotation is in range (-pi/6, 0) */
       else if (rot < -M_PI/6 && rot < 0)
       {
         /* Advance with a rotation of 10/24 rad/m */
-        // Call PID
+        call_PID(MAX_SPEED*DIFF_DRV, MAX_SPEED, 0, 0);
       }
       /* If the rotation is not in range (-pi/6, pi/6) */
       else
       {
         /* Call PID to stop */
-        // Call PID
+        call_PID(0, 0, 0, 0);
         /* Call PID to turn R radians */
-        // Call PID
+        unsigned gaps = unsigned(rot*GAPS_PER_RAD/2);
+        if (rot > 0)
+        {
+          call_PID(MAX_SPEED, -MAX_SPEED, gaps, gaps);
+        }
+        else
+        {
+          call_PID(-MAX_SPEED, MAX_SPEED, gaps, gaps);
+        }
         /* Call PID to advance */
-        // Call PID
+        call_PID(MAX_SPEED, MAX_SPEED, 0, 0);
       }
     }
     /* If rotation is zero */
@@ -62,19 +70,19 @@ void straight_line_movement()
       if (side_distance > 150)
       {
         /* Advance with a rotation of -10/24 rad/m */
-        // Call PID
+        call_PID(MAX_SPEED, MAX_SPEED*DIFF_DRV, 0, 0);
       }
       /* Else if the side distance is lower than 50mm */
       else if (side_distance < 50)
       {
         /* Advance with a rotation of 10/24 rad/m */
-        // Call PID
+        call_PID(MAX_SPEED*DIFF_DRV, MAX_SPEED, 0, 0);
       }
       /* Else if the side distance is in range [50, 150] */
       else
       {
         /* Advance straight */
-        // Call PID
+        call_PID(MAX_SPEED, MAX_SPEED, 0, 0);
       }
     }
   }
