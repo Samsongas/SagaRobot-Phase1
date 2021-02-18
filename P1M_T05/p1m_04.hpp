@@ -11,6 +11,12 @@
  */
 #define GAPS_PER_RAD (0.13/2)/(M_PI*0.07/20)
 
+/* 
+ * Number of mm per gap
+ * 20 gaps per complete wheel turn / (pi * wheel_diameter (mm))
+ */
+#define MM_PER_GAP 20/( M_PI*70 )
+
 /*
  * Checks if rotation movement is needed.
  * Checks if there is a gap at the left.
