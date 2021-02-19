@@ -3,10 +3,7 @@
 
 #include <Arduino.h>
 
-#define R_D0 D2;
-#define L_D0 D3;
-#define M_PI 3.14159265358979323846
-
+#define SAMPLE_TIME 100
 /**
   * @brief Store usefull information for each encoder.
   *
@@ -22,19 +19,26 @@
   */
 
 struct encoder{
-    double speed;
-    unsigned LastTime;
+    double WheelSpeed;
+    unsigned long LastTime;
+    unsigned long LastInterrupt;
     bool EnableGaps;
-    double GapCount;
-}
+    volatile unsigned long GapsCount;
+    unsigned long LastGapsCount;
+};
+
+// Global variables
+
+    extern encoder EncoderR;
+    extern encoder EncoderL;
+
 
 /* Prototypes */
 
-void initialize_p1m_01();
-void ISR_speed_sensor(encoder *encoder);
-void EnableGapCnt(encoder *encoder);
+void initialize_p1m_02();
+void EnableGapsCnt(encoder *encoder);
 void DisabeGapsCnt(encoder *encoder);
-double GetGapCnt(encoder *encoder);
+unsigned GetGapCnt(encoder *encoder);
 double GetSpeed(encoder *encoder);
 
 #endif /* P1M_02_H */
