@@ -5,8 +5,8 @@
 unsigned long ActualTime = 0;
 unsigned long PreviousTime = 0;
 float PID_Output = 0;
-float Ki = Default_Ki; 
-float Kd = Default_Kd; 
+float Ki = Default_Ki;
+float Kd = Default_Kd;
 float Kp = Default_Kp;
 
 /**
@@ -37,6 +37,37 @@ float PID(float DesiredValue, float ActualValue)
     }
     return PID_Output;
 }
+
+/* Set speed and direction, 
+ * needed because encoder don't give us direction.
+ * Used to don't repeat code.
+ */
+void set_speed_direction(float dsmL, float dsmR)
+{
+    //TODO add the algorithm necesary to only run for the distance desired.
+    float asmL = GetSpeed(&EncoderL); // get actual speed motor left.
+    float asmR = GetSpeed(&EncoderR);
+
+    float motorL = PID(dsmL, asmL) / PWM_MAX; // Get PID values
+    float motorR = PID(dsmR, asmR) / PWM_MAX;
+
+    if (dsmL > 0 && dsmR > 0)
+    {
+        set_speed(motorL, motorR);
+    }
+    else if (dsmL < 0 && dsmR > 0)
+    {
+        set_speed(-motorL, motorR);
+    }
+    else if (dsmL > 0 && dsmR < 0)
+    {
+        set_speed(motorL, -motorR);
+    }
+    else if (dsmL < 0 && dsmR < 0)
+    {
+        set_speed(-motorL, -motorR);
+    }
+}
 /**
     @brief Set the motor to the desired speed and distance 
     unless distance it's 0, then it works indefinitely.
@@ -46,35 +77,43 @@ float PID(float DesiredValue, float ActualValue)
 
     @param dsmR, Desired speed motor Right.
 
-    @param ddmL, Desired speed distance Left.
+    @param ddmL, Desired  distance motor Left.
 
-    @param ddmR, Desired speed distance Right.
+    @param ddmR, Desired  distance motor Right.
 
 
 */
 void call_PID(float dsmL, float dsmR, unsigned ddmL, unsigned ddmR)
 {
-    float asmL = GetSpeed(&EncoderL);       // actual speed motor left.
-    float asmR = GetSpeed(&EncoderR);
-    unsigned adsmL = GetGapCnt(&EncoderL);  // actual gaps
-    unsigned adsmR = GetGapCnt(&EncoderR);
-    float motorL = PID(dsmL,asmL)/PWM_MAX;
-    float motorR = PID(dsmR,asmR)/PWM_MAX;
-    if (dsmL>0 && dsmR>0)
-    {
-        set_speed(motorL, motorR);
+
+    unsigned sgmL = GetGapCnt(&EncoderL); // Starting gapas motor Left and right
+    unsigned sgmR = GetGapCnt(&EncoderR);
+
+    if (ddmL == 0 && ddmR == 0)
+    { // Set only speed and no distance.
+        set_speed_direction(dsmL, dsmR);
     }
-    else if(dsmL<0 && dsmR>0)
+    else
     {
-        set_speed(-motorL, motorR);
-    }
-        else if(dsmL>0 && dsmR<0)
-    {
-        set_speed(motorL, -motorR);
-    }
-        else if(dsmL<0 && dsmR<0)
-    {
-        set_speed(-motorL, -motorR);
+        while ((ddmL + sgmL - GetGapCnt(&EncoderL) != 0) && (ddmR + sgmR - GetGapCnt(&EncoderR) != 0)) //move at desired speed while distance is not reached
+        {
+            set_speed_direction(dsmL, dsmR);
+        }
+        if ((ddmL + sgmL - GetGapCnt(&EncoderL) == 0) && (ddmR + sgmR - GetGapCnt(&EncoderR) != 0)) // Ff right motor distance is not reached keep moving right motor.
+        {
+            while ((ddmR + sgmR - GetGapCnt(&EncoderR) != 0))
+            {
+                set_speed_direction(0, dsmR);
+            }
+        }
+        if ((ddmL + sgmL - GetGapCnt(&EncoderL) != 0) && (ddmR + sgmR - GetGapCnt(&EncoderR) == 0)) // If left motor distance is not reached keep moving left motor.
+        {
+            while ((ddmR + sgmR - GetGapCnt(&EncoderL) != 0))
+            {
+                set_speed_direction(dsmL, 0);
+            }
+        }
+        set_speed_direction(0, 0); // when both motor has reached the desired distance car should stop.
     }
 }
 /**
