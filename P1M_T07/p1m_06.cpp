@@ -95,20 +95,20 @@ void call_PID(float dsmL, float dsmR, unsigned ddmL, unsigned ddmR)
     }
     else
     {
-        while ((ddmL + sgmL - GetGapCnt(&EncoderL) != 0) && (ddmR + sgmR - GetGapCnt(&EncoderR) != 0)) //move at desired speed while distance is not reached
+        while ((ddmL + sgmL - GetGapCnt(&EncoderL) < 0) && (ddmR + sgmR - GetGapCnt(&EncoderR) < 0)) //move at desired speed while distance is not reached
         {
             set_speed_direction(dsmL, dsmR);
         }
-        if ((ddmL + sgmL - GetGapCnt(&EncoderL) == 0) && (ddmR + sgmR - GetGapCnt(&EncoderR) != 0)) // Ff right motor distance is not reached keep moving right motor.
+        if ((ddmL + sgmL - GetGapCnt(&EncoderL) == 0) && (ddmR + sgmR - GetGapCnt(&EncoderR) < 0)) // Ff right motor distance is not reached keep moving right motor.
         {
             while ((ddmR + sgmR - GetGapCnt(&EncoderR) != 0))
             {
                 set_speed_direction(0, dsmR);
             }
         }
-        if ((ddmL + sgmL - GetGapCnt(&EncoderL) != 0) && (ddmR + sgmR - GetGapCnt(&EncoderR) == 0)) // If left motor distance is not reached keep moving left motor.
+        if ((ddmL + sgmL - GetGapCnt(&EncoderL) < 0) && (ddmR + sgmR - GetGapCnt(&EncoderR) == 0)) // If left motor distance is not reached keep moving left motor.
         {
-            while ((ddmR + sgmR - GetGapCnt(&EncoderL) != 0))
+            while ((ddmR + sgmR - GetGapCnt(&EncoderL) < 0))
             {
                 set_speed_direction(dsmL, 0);
             }
