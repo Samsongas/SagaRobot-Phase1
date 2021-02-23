@@ -18,16 +18,19 @@ void loop() {
 
   GetGapCnt(Left_Motor);
   GetSpeed(Left_Motor);
-
+  Serial.print("Left gap count ");
   Serial.print(GetGapCnt(Left_Motor));
   Serial.print(",");
 
+  Serial.print("Right gap count ");
   Serial.print(GetGapCnt(Right_Motor));
   Serial.print(",");
 
+  Serial.print("Left speed count ");
   Serial.print(GetSpeed(Left_Motor));
   Serial.print(",");
 
+  Serial.print("Right speed count ");
   Serial.print(GetSpeed(Right_Motor));
   Serial.print("\r\n");
   delay(500);

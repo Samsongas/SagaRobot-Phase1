@@ -98,9 +98,11 @@ double GetSpeed_int(encoder *encoder)
 
     encoder->WheelSpeed = 3000 * (encoder->GapsCount - encoder->LastGapsCount) / diffTime;
     encoder->LastTime = CurrentTime2;
+    Serial.print("Gap diff ");
     Serial.print(encoder->GapsCount - encoder->LastGapsCount);
     Serial.print(",");
     encoder->LastGapsCount = encoder->GapsCount;
+    Serial.print("Time diff ");
     Serial.print(diffTime);
     Serial.print("\r\n");
   }
@@ -162,43 +164,43 @@ void EnableGapsCnt(byte LeftorRight)
 {
   if(LeftorRight == Left_Motor)
   {
-    EnableGapsCnt_int(&EncoderL);
+     return EnableGapsCnt_int(&EncoderL);
   }
   else
   {
-    EnableGapsCnt_int(&EncoderR);
+    return EnableGapsCnt_int(&EncoderR);
   }
 }
 void DisabeGapsCnt(byte LeftorRight)
 {
   if (LeftorRight == Left_Motor)
   {
-    DisabeGapsCnt_int(&EncoderL);
+    return DisabeGapsCnt_int(&EncoderL);
   }
   else
   {
-    DisabeGapsCnt_int(&EncoderR);
+    return DisabeGapsCnt_int(&EncoderR);
   }
 }
 unsigned GetGapCnt(byte LeftorRight)
 {
   if (LeftorRight == Left_Motor)
   {
-    GetGapCnt_int(&EncoderL);
+    return GetGapCnt_int(&EncoderL);
   }
   else
   {
-    GetGapCnt_int(&EncoderR);
+    return GetGapCnt_int(&EncoderR);
   }
 }
 double GetSpeed(byte LeftorRight)
 {
   if (LeftorRight == Left_Motor)
   {
-    GetSpeed_int(&EncoderL);
+    return GetSpeed_int(&EncoderL);
   }
   else
   {
-    GetSpeed_int(&EncoderR);
+    return GetSpeed_int(&EncoderR);
   }
 }
