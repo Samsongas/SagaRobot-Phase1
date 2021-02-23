@@ -3,7 +3,10 @@
 
 #include <Arduino.h>
 
-#define SAMPLE_TIME 100
+#define Left_Motor 0
+#define Right_Motor 1
+
+#define SAMPLE_TIME 100  // in ms
 /**
     @brief Store usefull information for each encoder.
 
@@ -22,27 +25,15 @@
     @param LastGapsCount Number of gaps counted at the starting of GetSpeed function.
 */
 
-struct encoder {
-  double WheelSpeed;
-  unsigned long LastTime;
-  unsigned long LastInterrupt;
-  bool EnableGaps;
-  volatile unsigned long GapsCount;
-  unsigned long LastGapsCount;
-};
 
-// Global variables
-
-extern encoder EncoderR;
-extern encoder EncoderL;
 
 
 /* Prototypes */
 
 void initialize_p1m_02();
-void EnableGapsCnt(encoder *encoder);
-void DisabeGapsCnt(encoder *encoder);
-unsigned GetGapCnt(encoder *encoder);
-double GetSpeed(encoder *encoder);
+void EnableGapsCnt(byte LeftorRight);
+void DisabeGapsCnt(byte LeftorRight);
+unsigned GetGapCnt(byte LeftorRight);
+double GetSpeed(byte LeftorRight);
 
 #endif /* P1M_02_H */
