@@ -2,8 +2,10 @@
 #ifndef P1M_06_H
 #define P1M_06_H
 
-#include "Arduino.h"
+#include <Arduino.h>
 
+#include "p1m_02.hpp"
+#include "p1m_07.hpp"
 
 
 /*

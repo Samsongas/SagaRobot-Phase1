@@ -21,13 +21,6 @@
 /* Max value of Arduino PWM */
 #define PWM_MAX 255.0
 
-/* 
- * Initializes all the pins to their
- * corresponding modes.
- */
-void initialize_p1m_07();
-
-
 /*
  * Gives the motors the desired acceleration,
  * expressed in percentage [0.0, 1.0]
