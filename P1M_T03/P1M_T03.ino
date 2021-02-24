@@ -1,37 +1,56 @@
 #include "p1m_02.hpp"
+
+bool Ena=true; 
+int Cnt=0;
+
 void setup() {
   initialize_p1m_02();
-  EnableGapsCnt(Left_Motor);
-  EnableGapsCnt(Right_Motor);
+  EnableGapsCnt(ENC_L);
+  EnableGapsCnt(ENC_R);
   Serial.begin(115200);
 }
 
 void loop() {
 
-  // LeftEncoder
-
-
-  GetGapCnt(Right_Motor);
-  GetSpeed(Right_Motor);
-
-  // RightEncoder
-
-  GetGapCnt(Left_Motor);
-  GetSpeed(Left_Motor);
-  Serial.print("Left gap count ");
-  Serial.print(GetGapCnt(Left_Motor));
+  /*Gap count test*/
+  Serial.print("LGC ");
+  Serial.print(GetGapCnt(ENC_L));
   Serial.print(",");
 
-  Serial.print("Right gap count ");
-  Serial.print(GetGapCnt(Right_Motor));
+  Serial.print("RGC ");
+  Serial.print(GetGapCnt(ENC_R));
+  Serial.print(",");
+  
+  /*Speed Test*/
+  Serial.print("speedL ");
+  Serial.print(GetSpeed(ENC_L));
   Serial.print(",");
 
-  Serial.print("Left speed count ");
-  Serial.print(GetSpeed(Left_Motor));
-  Serial.print(",");
-
-  Serial.print("Right speed count ");
-  Serial.print(GetSpeed(Right_Motor));
+  Serial.print("speedR ");
+  Serial.print(GetSpeed(ENC_R));
   Serial.print("\r\n");
+  
+  /* Disable test*/
+  if(Ena){
+  Serial.print("Disabled \n\r");  
+    DisableGapsCnt(ENC_L);
+    DisableGapsCnt(ENC_R);
+    Cnt++;
+    if(Cnt == 10){
+      Ena = false;
+      Cnt = 0;
+    }
+  }
+  /* Enable test*/
+  if(!Ena){
+  Serial.print("Enabled \n\r");
+  EnableGapsCnt(ENC_L);
+  EnableGapsCnt(ENC_R);
+  Cnt++;
+  if(Cnt == 10){
+    Ena = true;
+    Cnt = 0;
+  }
+  }
   delay(500);
 }

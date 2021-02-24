@@ -6,6 +6,24 @@
 unsigned long CurrentTime = 0;
 unsigned long CurrentTime2 = 0;
 
+/**
+    @brief Store usefull information for each encoder.
+
+    @note
+
+    @param WheelSpeed Last speed in RPM measured by the encoder.
+
+    @param LastTime Value of the timer the last time it was called.
+
+    @param LastInterrupt Value to keep trace of the last interrupt and avoid rebounce.
+
+    @param EnabeGaps Boolean to decide if the caps are counted.
+
+    @param GapsCount  Number of gaps counted since enabling.
+
+    @param LastGapsCount Number of gaps counted at the starting of GetSpeed function.
+*/
+
 struct encoder
 {
   double WheelSpeed;
@@ -98,13 +116,8 @@ double GetSpeed_int(encoder *encoder)
 
     encoder->WheelSpeed = 3000 * (encoder->GapsCount - encoder->LastGapsCount) / diffTime;
     encoder->LastTime = CurrentTime2;
-    Serial.print("Gap diff ");
-    Serial.print(encoder->GapsCount - encoder->LastGapsCount);
-    Serial.print(",");
     encoder->LastGapsCount = encoder->GapsCount;
-    Serial.print("Time diff ");
-    Serial.print(diffTime);
-    Serial.print("\r\n");
+
   }
   return encoder->WheelSpeed;
 }
@@ -162,7 +175,7 @@ void initialize_p1m_02()
 
 void EnableGapsCnt(byte LeftorRight)
 {
-  if(LeftorRight == Left_Motor)
+  if(LeftorRight == ENC_L)
   {
      return EnableGapsCnt_int(&EncoderL);
   }
@@ -171,9 +184,9 @@ void EnableGapsCnt(byte LeftorRight)
     return EnableGapsCnt_int(&EncoderR);
   }
 }
-void DisabeGapsCnt(byte LeftorRight)
+void DisableGapsCnt(byte LeftorRight)
 {
-  if (LeftorRight == Left_Motor)
+  if (LeftorRight == ENC_L)
   {
     return DisabeGapsCnt_int(&EncoderL);
   }
@@ -184,7 +197,7 @@ void DisabeGapsCnt(byte LeftorRight)
 }
 unsigned GetGapCnt(byte LeftorRight)
 {
-  if (LeftorRight == Left_Motor)
+  if (LeftorRight == ENC_L)
   {
     return GetGapCnt_int(&EncoderL);
   }
@@ -195,7 +208,7 @@ unsigned GetGapCnt(byte LeftorRight)
 }
 double GetSpeed(byte LeftorRight)
 {
-  if (LeftorRight == Left_Motor)
+  if (LeftorRight == ENC_L)
   {
     return GetSpeed_int(&EncoderL);
   }

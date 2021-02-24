@@ -45,8 +45,8 @@ float PID(float DesiredValue, float ActualValue)
 void set_speed_direction(float dsmL, float dsmR)
 {
     //TODO add the algorithm necesary to only run for the distance desired.
-    float asmL = GetSpeed(&EncoderL); // get actual speed motor left.
-    float asmR = GetSpeed(&EncoderR);
+    float asmL = GetSpeed(ENC_L); // get actual speed motor left.
+    float asmR = GetSpeed(ENC_R);
 
     float motorL = PID(dsmL, asmL) / PWM_MAX; // Get PID values
     float motorR = PID(dsmR, asmR) / PWM_MAX;
@@ -86,8 +86,8 @@ void set_speed_direction(float dsmL, float dsmR)
 void call_PID(float dsmL, float dsmR, unsigned ddmL, unsigned ddmR)
 {
 
-    unsigned sgmL = GetGapCnt(&EncoderL); // Starting gapas motor Left and right
-    unsigned sgmR = GetGapCnt(&EncoderR);
+    unsigned sgmL = GetGapCnt(ENC_L); // Starting gapas motor Left and right
+    unsigned sgmR = GetGapCnt(ENC_R);
 
     if (ddmL == 0 && ddmR == 0)
     { // Set only speed and no distance.
@@ -95,20 +95,20 @@ void call_PID(float dsmL, float dsmR, unsigned ddmL, unsigned ddmR)
     }
     else
     {
-        while ((ddmL + sgmL - GetGapCnt(&EncoderL) < 0) && (ddmR + sgmR - GetGapCnt(&EncoderR) < 0)) //move at desired speed while distance is not reached
+        while ((ddmL + sgmL - GetGapCnt(ENC_L) < 0) && (ddmR + sgmR - GetGapCnt(ENC_R) < 0)) //move at desired speed while distance is not reached
         {
             set_speed_direction(dsmL, dsmR);
         }
-        if ((ddmL + sgmL - GetGapCnt(&EncoderL) == 0) && (ddmR + sgmR - GetGapCnt(&EncoderR) < 0)) // Ff right motor distance is not reached keep moving right motor.
+        if ((ddmL + sgmL - GetGapCnt(ENC_L) == 0) && (ddmR + sgmR - GetGapCnt(ENC_R) < 0)) // Ff right motor distance is not reached keep moving right motor.
         {
-            while ((ddmR + sgmR - GetGapCnt(&EncoderR) != 0))
+            while ((ddmR + sgmR - GetGapCnt(ENC_R) != 0))
             {
                 set_speed_direction(0, dsmR);
             }
         }
-        if ((ddmL + sgmL - GetGapCnt(&EncoderL) < 0) && (ddmR + sgmR - GetGapCnt(&EncoderR) == 0)) // If left motor distance is not reached keep moving left motor.
+        if ((ddmL + sgmL - GetGapCnt(ENC_L) < 0) && (ddmR + sgmR - GetGapCnt(ENC_R) == 0)) // If left motor distance is not reached keep moving left motor.
         {
-            while ((ddmR + sgmR - GetGapCnt(&EncoderL) < 0))
+            while ((ddmR + sgmR - GetGapCnt(ENC_L) < 0))
             {
                 set_speed_direction(dsmL, 0);
             }
