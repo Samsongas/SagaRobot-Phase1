@@ -21,9 +21,13 @@ unsigned GetGapCnt(byte LeftorRight){
   if (LeftorRight==ENC_L)
   {
     TestGapCntL++;
-  return TestGapCntL;
+    Serial.print("\n Left Enc gaps: ");
+    Serial.print(TestGapCntL);
+    return TestGapCntL;
   }else{
     TestGapCntR++;
+    Serial.print("\n Right Enc gaps: ");
+    Serial.print(TestGapCntR);
   return TestGapCntR;
   }
 }

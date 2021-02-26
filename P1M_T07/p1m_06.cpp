@@ -1,4 +1,6 @@
 #include "p1m_06.hpp"
+#include "p1m_02.hpp"
+#include "p1m_07.hpp"
 
 #define Sample_Time 50
 
@@ -29,7 +31,7 @@ float PID(float DesiredValue, float ActualValue)
         float derror = error / (ActualTime - PreviousTime);
         float ierror = error * (ActualTime - PreviousTime);
         PreviousTime = ActualTime;
-        PID_Output = Kp * error + Ki * ierror + Kd * derror;
+        PID_Output = (Kp * error + Ki * ierror + Kd * derror);
         if (PID_Output > PWM_MAX)
         {
             return PWM_MAX;
@@ -48,8 +50,8 @@ void set_speed_direction(float dsmL, float dsmR)
     float asmL = GetSpeed(ENC_L); // get actual speed motor left.
     float asmR = GetSpeed(ENC_R);
 
-    float motorL = PID(dsmL, asmL) / PWM_MAX; // Get PID values
-    float motorR = PID(dsmR, asmR) / PWM_MAX;
+    float motorL = PID(abs(dsmL), asmL) / PWM_MAX; // Get PID values
+    float motorR = PID(abs(dsmR), asmR) / PWM_MAX;
 
     if (dsmL > 0 && dsmR > 0)
     {
@@ -63,7 +65,7 @@ void set_speed_direction(float dsmL, float dsmR)
     {
         set_speed(motorL, -motorR);
     }
-    else if (dsmL < 0 && dsmR < 0)
+    else if (dsmL <= 0 && dsmR <= 0)
     {
         set_speed(-motorL, -motorR);
     }
@@ -86,7 +88,7 @@ void set_speed_direction(float dsmL, float dsmR)
 void call_PID(float dsmL, float dsmR, unsigned ddmL, unsigned ddmR)
 {
 
-    unsigned sgmL = GetGapCnt(ENC_L); // Starting gapas motor Left and right
+    unsigned sgmL = GetGapCnt(ENC_L); // Starting gaps motor Left and right
     unsigned sgmR = GetGapCnt(ENC_R);
 
     if (ddmL == 0 && ddmR == 0)
@@ -99,7 +101,7 @@ void call_PID(float dsmL, float dsmR, unsigned ddmL, unsigned ddmR)
         {
             set_speed_direction(dsmL, dsmR);
         }
-        if ((ddmL + sgmL - GetGapCnt(ENC_L) == 0) && (ddmR + sgmR - GetGapCnt(ENC_R) < 0)) // Ff right motor distance is not reached keep moving right motor.
+        if ((ddmL + sgmL - GetGapCnt(ENC_L) == 0) && (ddmR + sgmR - GetGapCnt(ENC_R) < 0)) // If right motor distance is not reached keep moving right motor.
         {
             while ((ddmR + sgmR - GetGapCnt(ENC_R) != 0))
             {

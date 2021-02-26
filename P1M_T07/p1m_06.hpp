@@ -4,9 +4,6 @@
 
 #include <Arduino.h>
 
-#include "p1m_02.hpp"
-#include "p1m_07.hpp"
-
 
 /*
 * PID parameters
