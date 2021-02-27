@@ -52,10 +52,10 @@ encoder EncoderL = {0};
 void ISR_speed_sensor_int(encoder *encoder)
 {
 
-  if (micros() - encoder->LastInterrupt > 2500)
+  if (micros() - encoder->LastInterrupt > 500)
   {
 
-    encoder->LastInterrupt = micros();
+    CurrentTime = micros();
     if (encoder->EnableGaps)
     {
       encoder->GapsCount++;

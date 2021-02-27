@@ -30,27 +30,27 @@ void loop() {
   Serial.print(GetSpeed(ENC_R));
   Serial.print("\r\n");
   
-  /* Disable test*/
-  if(Ena){
-  Serial.print("Disabled \n\r");  
-    DisableGapsCnt(ENC_L);
-    DisableGapsCnt(ENC_R);
-    Cnt++;
-    if(Cnt == 10){
-      Ena = false;
-      Cnt = 0;
-    }
-  }
-  /* Enable test*/
-  if(!Ena){
+//  /* Disable test*/
+//  if(Ena){
+//  Serial.print("Disabled \n\r");  
+//    DisableGapsCnt(ENC_L);
+//    DisableGapsCnt(ENC_R);
+//    Cnt++;
+//    if(Cnt == 10){
+//      Ena = false;
+//      Cnt = 0;
+//    }
+//  }
+//  /* Enable test*/
+//  if(!Ena){
   Serial.print("Enabled \n\r");
   EnableGapsCnt(ENC_L);
   EnableGapsCnt(ENC_R);
-  Cnt++;
-  if(Cnt == 10){
-    Ena = true;
-    Cnt = 0;
-  }
-  }
-  delay(500);
+//  Cnt++;
+//  if(Cnt == 10){
+//    Ena = true;
+//    Cnt = 0;
+//  }
+//  }
+//  delay(500);
 }
