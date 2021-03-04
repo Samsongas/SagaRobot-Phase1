@@ -4,6 +4,8 @@
 #include <Arduino.h>
 #include <math.h>
 
+#define SIDE_DISTANCE 350
+
 #define MAX_SPEED 2*M_PI //rad/s
 /* 
  * Number of GAPS per radian
