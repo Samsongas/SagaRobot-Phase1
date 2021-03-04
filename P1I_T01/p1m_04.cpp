@@ -21,6 +21,7 @@ void rotation_movement()
   s3d = distance_sensor(3);
   delay(5);
   s4d = distance_sensor(4);
+  delay(5);
   /* Calculate side_distance */
   unsigned side_distance = (s3d + s4d)/2;
   /* Calculate front_distance */
