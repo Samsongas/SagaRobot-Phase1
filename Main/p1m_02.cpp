@@ -8,19 +8,11 @@ unsigned long CurrentTime2 = 0;
 
 /**
     @brief Store usefull information for each encoder.
-
-    @note
-
     @param WheelSpeed Last speed in RPM measured by the encoder.
-
     @param LastTime Value of the timer the last time it was called.
-
     @param LastInterrupt Value to keep trace of the last interrupt and avoid rebounce.
-
     @param EnabeGaps Boolean to decide if the caps are counted.
-
-    @param GapsCount  Number of gaps counted since enabling.
-
+    @param GapsCount Number of gaps counted since enabling.
     @param LastGapsCount Number of gaps counted at the starting of GetSpeed function.
 */
 
@@ -43,35 +35,45 @@ encoder EncoderL = {0};
 
 /**
     @brief Interruption rutine service, calculate the current speed of the wheel.
-
-    @note 
-
     @param *encoder, pointer to the encoder struct variable corresponding with the encoder selected.
 
 */
 void ISR_speed_sensor_int(encoder *encoder)
 {
-
-  if (micros() - encoder->LastInterrupt > 500)
+  /* If Gaps counting is enabled */
+  if (encoder->EnableGaps)
   {
-
-    CurrentTime = micros();
-    if (encoder->EnableGaps)
+    if (micros() - encoder->LastInterrupt > 5000)
     {
-      encoder->GapsCount++;
+  
+      encoder->LastInterrupt = micros();
+      if (encoder->EnableGaps)
+      {
+        encoder->GapsCount++;
+      }
+    }
+    else
+    {
+      /* Way too fast since last interrupt, ignore it.
+        with a 20 slit disk, and the wheel rotating fast enough to generate interrupts
+        at a 500 microsecond intervals, the wheel would have to rotate at 6000 rpm
+        = 1/(0.000500sec * 20(slits/rotation)) * 60(seconds/minute)
+      */
     }
   }
+  /* In any other case */
   else
   {
-    /* Way too fast since last interrupt, ignore it.
-      with a 20 slit disk, and the wheel rotating fast enough to generate interrupts
-      at a 500 microsecond intervals, the wheel would have to rotate at 6000 rpm
-      = 1/(0.000500sec * 20(slits/rotation)) * 60(seconds/minute)
-
-    */
+    /* Set the Gap counter to zero */
+    encoder->GapsCount = 0;
   }
 }
 
+
+/**
+    @brief Initializes interrupt.
+    @note  Two interrups are needed
+*/
 void ISR_speed_sensor_L()
 {
   ISR_speed_sensor_int(&EncoderL);
@@ -82,22 +84,12 @@ void ISR_speed_sensor_R()
   ISR_speed_sensor_int(&EncoderR);
 }
 
-/**
-    @brief Initializes interrupt.
-
-    @note  Two interrups are needed
-
-*/
 
 
 
 /**
     @brief Return encoder last calculated speed.
-
-    @note
-
     @param *encoder, pointer to the encoder struct variable corresponding with the encoder selected.
-
     @retval speed on RPM calculated by the encoder selected.
 */
 
@@ -123,11 +115,7 @@ double GetSpeed_int(encoder *encoder)
 }
 /**
     @brief Return encoder last calculated speed.
-
-    @note
-
     @param *encoder, pointer to the encoder struct variable corresponding with the encoder selected.
-
     @retval Number of gaps counted for the selected encoder.
 */
 
@@ -137,11 +125,7 @@ unsigned GetGapCnt_int(encoder *encoder)
 }
 /**
     @brief Enable gaps counting for the selected encoder.
-
-    @note
-
     @param *encoder, pointer to the encoder struct variable corresponding with the encoder selected.
-
 */
 
 void EnableGapsCnt_int(encoder *encoder)
@@ -151,19 +135,14 @@ void EnableGapsCnt_int(encoder *encoder)
 
 /**
     @brief Disable gaps counting for the selected encoder.
-
-    @note
-
     @param *encoder, pointer to the encoder struct variable corresponding with the encoder selected.
-
 */
 void DisabeGapsCnt_int(encoder *encoder)
 {
   encoder->EnableGaps = false;
-  encoder->GapsCount = 0;
 }
 ////////////////////////////////////////
-//            USER APIS               //
+//            USER API                //
 ////////////////////////////////////////
 
 void initialize_p1m_02()
@@ -173,9 +152,9 @@ void initialize_p1m_02()
   attachInterrupt(digitalPinToInterrupt(2), ISR_speed_sensor_R, RISING);
 }
 
-void EnableGapsCnt(byte LeftorRight)
+void EnableGapsCnt(byte encoder_lr)
 {
-  if(LeftorRight == ENC_L)
+  if(encoder_lr == ENC_L)
   {
      return EnableGapsCnt_int(&EncoderL);
   }
@@ -184,9 +163,9 @@ void EnableGapsCnt(byte LeftorRight)
     return EnableGapsCnt_int(&EncoderR);
   }
 }
-void DisableGapsCnt(byte LeftorRight)
+void DisableGapsCnt(byte encoder_lr)
 {
-  if (LeftorRight == ENC_L)
+  if (encoder_lr == ENC_L)
   {
     return DisabeGapsCnt_int(&EncoderL);
   }
@@ -195,9 +174,9 @@ void DisableGapsCnt(byte LeftorRight)
     return DisabeGapsCnt_int(&EncoderR);
   }
 }
-unsigned GetGapCnt(byte LeftorRight)
+unsigned GetGapCnt(byte encoder_lr)
 {
-  if (LeftorRight == ENC_L)
+  if (encoder_lr == ENC_L)
   {
     return GetGapCnt_int(&EncoderL);
   }
@@ -206,9 +185,9 @@ unsigned GetGapCnt(byte LeftorRight)
     return GetGapCnt_int(&EncoderR);
   }
 }
-double GetSpeed(byte LeftorRight)
+double GetSpeed(byte encoder_lr)
 {
-  if (LeftorRight == ENC_L)
+  if (encoder_lr == ENC_L)
   {
     return GetSpeed_int(&EncoderL);
   }

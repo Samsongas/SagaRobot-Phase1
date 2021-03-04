@@ -14,11 +14,7 @@ float Kp = Default_Kp;
 
 /**
     @brief General PID implementation.
-
-    @note
-
     @param DesiredValue, Value that you want to achieve.
-
     @param ActualValue, Value gotten from the sensor.
 
 */
@@ -34,8 +30,8 @@ float PID(float DesiredValue, float ActualValue, byte LeftOrRight)
   long unsigned ActualTime = millis();
 
     float error = DesiredValue - ActualValue;
-    float derror = error / (ActualTime - PreviousTime);
-    float ierror = error * (ActualTime - PreviousTime);
+    float derror = error / float(ActualTime - PreviousTime);
+    float ierror = error * float(ActualTime - PreviousTime);
 
     if (LeftOrRight == LEFT_MOTOR) {
       PreviousTimeL = ActualTime;
@@ -97,14 +93,9 @@ void set_speed_direction(float dsmL, float dsmR)
 /**
     @brief Set the motor to the desired speed and distance
     unless distance it's 0, then it works indefinitely.
-    @note
-
     @param dsmL, Desired speed motor Left.
-
     @param dsmR, Desired speed motor Right.
-
     @param ddmL, Desired  distance motor Left.
-
     @param ddmR, Desired  distance motor Right.
 
 
@@ -141,11 +132,8 @@ void call_PID(float dsmL, float dsmR, unsigned ddmL, unsigned ddmR)
 /**
     @brief Set the PID parameters.
     @note Future revision could incorpore differente parameters for each component.
-
     @param ki, Integral gain.
-
     @param kd, Derivative gain.
-
     @param kp, Proporcional gain.
 
 */
