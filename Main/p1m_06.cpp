@@ -29,27 +29,31 @@ float PID(float DesiredValue, float ActualValue, byte LeftOrRight)
   }
   long unsigned ActualTime = millis();
 
-    float error = DesiredValue - ActualValue;
-    float derror = error / float(ActualTime - PreviousTime);
-    float ierror = error * float(ActualTime - PreviousTime);
-
-    if (LeftOrRight == LEFT_MOTOR) {
-      PreviousTimeL = ActualTime;
-    }
-    else {
-      PreviousTimeR = ActualTime;
-    }
-
-     float PID_Output = (Kp * error + Ki * ierror + Kd * derror);
+  float error = DesiredValue - ActualValue;
+  float derror = error / float(ActualTime - PreviousTime);
+  float ierror = error * float(ActualTime - PreviousTime);
+  
+  if (LeftOrRight == LEFT_MOTOR) {
+    PreviousTimeL = ActualTime;
+  }
+  else {
+    PreviousTimeR = ActualTime;
+  }
+  
+  float PID_Output = (Kp * error + Ki * ierror + Kd * derror);
  
-      if (PID_Output > PWM_MAX)
-    {
-      return PWM_MAX;
-    }
-      if (PID_Output < -PWM_MAX)
-    {
-      return -PWM_MAX;
-    }
+  if (PID_Output > PWM_MAX)
+  {
+    PID_Output = PWM_MAX;
+  }
+  else if (PID_Output < 0.1)
+  {
+    PID_Output = 0.1;
+  }
+  else
+  {
+    // MISRA C++ 2008
+  }
     
   return PID_Output;
 }
@@ -60,7 +64,6 @@ float PID(float DesiredValue, float ActualValue, byte LeftOrRight)
 */
 void set_speed_direction(float dsmL, float dsmR)
 {
-  //TODO add the algorithm necesary to only run for the distance desired.
   float asmL = GetSpeed(ENC_L); // get actual speed motor left.
   float asmR = GetSpeed(ENC_R);
 

@@ -18,13 +18,13 @@ void loop() {
   }
   Serial.print("\nSensor1:\n");
   Serial.print(distance_sensor(1));
-  delay(50);
+  delay(500);
   Serial.print("\nSensor2:\n");
   Serial.print(distance_sensor(2));
-  delay(50);
+  delay(500);
   Serial.print("\nSensor3:\n");
   Serial.print(distance_sensor(3));
-  delay(50);
+  delay(500);
   Serial.print("\nSensor4:\n");
   Serial.print(distance_sensor(4));
   Serial.flush();

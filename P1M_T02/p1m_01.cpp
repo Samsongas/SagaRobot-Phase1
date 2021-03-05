@@ -19,14 +19,14 @@ void initialize_p1m_01()
  * Returns distance of obstacle detected
  * by sensor, in mm.
  */
-unsigned distance_sensor(int sensor){
+long unsigned distance_sensor(int sensor){
   /* Send a 10 us pulse trough trigger pin */
   digitalWrite(TRG, HIGH);
   delayMicroseconds(10); //10us pulse
   digitalWrite(TRG, LOW);
   /* Read the width of the pulse sent
      by the sensor */
-  int t = 0;
+  long int t = 0;
   switch (sensor)
   {
     case 1:
@@ -42,6 +42,6 @@ unsigned distance_sensor(int sensor){
       t = pulseIn(S_4, HIGH);
       break;
   }
-  unsigned distance = (10*t)/59;
+  long unsigned distance = (10*t)/59;
   return distance;
 }

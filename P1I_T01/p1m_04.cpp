@@ -13,7 +13,7 @@ void rotation_movement()
 {
   unsigned gaps;
   /* Scan the distance of all sensors */
-  unsigned s1d, s2d, s3d, s4d;
+  long unsigned s1d, s2d, s3d, s4d;
   s1d = distance_sensor(1);
   delay(5);
   s2d = distance_sensor(2);
@@ -23,12 +23,12 @@ void rotation_movement()
   s4d = distance_sensor(4);
   delay(5);
   /* Calculate side_distance */
-  unsigned side_distance = (s3d + s4d)/2;
+  long unsigned side_distance = (s3d + s4d)/2;
   /* Calculate front_distance */
-  unsigned front_distance = (s1d + s2d)/2;
-  /* If front distance is less than 100mm and
+  long unsigned front_distance = (s1d + s2d)/2;
+  /* If front distance is less than 150mm and
    * side distance is less than the defined. */
-   if (front_distance < 100 and
+   if (front_distance < 150 and
        side_distance < SIDE_DISTANCE)
    {
      /* Perform a 90º turn left */
@@ -36,8 +36,8 @@ void rotation_movement()
      gaps = (M_PI/2)*GAPS_PER_RAD;
      call_PID(-MAX_SPEED, MAX_SPEED, gaps, gaps);
    }
-   /* If side distance is more than the defined. */
-   else if (side_distance > SIDE_DISTANCE)
+   /* If side distances are more than the defined. */
+   else if (s3d > SIDE_DISTANCE && s4d > SIDE_DISTANCE)
    {
      /* Advance 130 mm and stop */
      gaps = 130 * MM_PER_GAP;

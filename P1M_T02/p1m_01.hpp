@@ -19,6 +19,6 @@ void initialize_p1m_01();
  * Returns distance of obstacle detected
  * by sensor, in mm.
  */
-unsigned distance_sensor(int sensor);
+long unsigned distance_sensor(int sensor);
 
 #endif /* P1M_01_H */

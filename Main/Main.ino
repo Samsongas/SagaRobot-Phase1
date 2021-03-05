@@ -4,7 +4,6 @@
 #include "p1m_04.hpp"
 #include "p1m_07.hpp"
 
-
 void setup() {
   Serial.begin(9600);
   initialize_p1m_01();
