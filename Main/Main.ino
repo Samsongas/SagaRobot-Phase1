@@ -16,10 +16,5 @@ void setup() {
 
 void loop() {
   straight_line_movement();
-  Serial.print("\nLeft:");
-  Serial.print(GetSpeed(ENC_L));
-  Serial.print("\nRight:");
-  Serial.print(GetSpeed(ENC_R));
-  Serial.print("\n");
-  //rotation_movement();
+  rotation_movement();
 }

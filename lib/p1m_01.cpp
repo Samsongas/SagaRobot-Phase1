@@ -26,7 +26,7 @@ long unsigned distance_sensor(int sensor){
   digitalWrite(TRG, LOW);
   /* Read the width of the pulse sent
      by the sensor */
-  int t = 0;
+  unsigned long t = 0;
   switch (sensor)
   {
     case 1:

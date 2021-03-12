@@ -26,18 +26,8 @@ void rotation_movement()
   long unsigned side_distance = (s3d + s4d)/2;
   /* Calculate front_distance */
   long unsigned front_distance = (s1d + s2d)/2;
-  /* If front distance is less than 150mm and
-   * side distance is less than the defined. */
-   if (front_distance < 150 and
-       side_distance < SIDE_DISTANCE)
-   {
-     /* Perform a 90º turn left */
-     call_PID(0.0, 0.0, 0, 0);
-     gaps = (M_PI/2)*GAPS_PER_RAD;
-     call_PID(-MAX_SPEED, MAX_SPEED, gaps, gaps);
-   }
-   /* If side distances are more than the defined. */
-   else if (s3d > SIDE_DISTANCE && s4d > SIDE_DISTANCE)
+  /* If side distances are more than the defined. */
+  if (s3d > SIDE_DISTANCE && s4d > SIDE_DISTANCE)
    {
      /* Advance 130 mm and stop */
      gaps = 130 * MM_PER_GAP;
@@ -45,8 +35,22 @@ void rotation_movement()
      /* Perform a 90º turn right */
      gaps = (M_PI/2)*GAPS_PER_RAD;
      call_PID(MAX_SPEED, -MAX_SPEED, gaps, gaps);
-     /* Advance the side distance minus 200mm and stop */
-     gaps = (side_distance - 200) * MM_PER_GAP;
+     /* Advance 300mm and stop */
+     gaps = (300) * MM_PER_GAP;
      call_PID(MAX_SPEED, MAX_SPEED, gaps, gaps);  
+   }
+  /* If front distance is less than 150mm and
+   * side distance is less than the defined. */
+   else if (front_distance < 150 and
+       side_distance < SIDE_DISTANCE)
+   {
+     /* Perform a 90º turn left */
+     call_PID(0.0, 0.0, 0, 0);
+     gaps = (M_PI/2)*GAPS_PER_RAD;
+     call_PID(-MAX_SPEED, MAX_SPEED, gaps, gaps);
+   }
+   else
+   {
+    /* MISRA C++ 2008 */
    }
 }

@@ -49,20 +49,7 @@ void straight_line_movement()
       /* If the rotation is not in range (-pi/6, pi/6) */
       else
       {
-        /* Call PID to stop */
-        call_PID(0, 0, 0, 0);
-        /* Call PID to turn R radians */
-        unsigned gaps = rot*GAPS_PER_RAD/2;
-        if (rot > 0)
-        {
-          call_PID(MAX_SPEED, -MAX_SPEED, gaps, gaps);
-        }
-        else
-        {
-          call_PID(-MAX_SPEED, MAX_SPEED, gaps, gaps);
-        }
-        /* Call PID to advance */
-        call_PID(MAX_SPEED, MAX_SPEED, 0, 0);
+        /* Do nothing */
       }
     }
     /* If rotation is zero */
