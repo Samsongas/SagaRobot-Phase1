@@ -16,6 +16,9 @@
 /* Max value of Arduino PWM */
 #define PWM_MAX 255.0
 
+/* Speed reduction */
+#define SPEED_RED 0.5
+
 /* 
  * Initializes all the pins to their
  * corresponding modes.

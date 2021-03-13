@@ -38,7 +38,7 @@ float set_speed(float motorL, float motorR)
     /* Accelerate forward */
     digitalWrite(LEFT_FW, HIGH);
     digitalWrite(LEFT_BW, LOW);
-    analogWrite(LEFT_ACC, PWM_MAX/2 + int(motorL*PWM_MAX)/2);
+    analogWrite(LEFT_ACC, PWM_MAX/3 + (int(motorL*PWM_MAX)/2)*SPEED_RED);
   }
   /* If acceleration of left motor is negative */
   else if (motorL < 0)
@@ -46,7 +46,7 @@ float set_speed(float motorL, float motorR)
     /* Accelerate backward */
     digitalWrite(LEFT_FW, LOW);
     digitalWrite(LEFT_BW, HIGH);
-    analogWrite(LEFT_ACC, PWM_MAX/2 + abs(int(motorL*PWM_MAX))/2);
+    analogWrite(LEFT_ACC, PWM_MAX/3 + (abs(int(motorL*PWM_MAX))/2)*SPEED_RED);
   }
   /* In any other case */
   else
@@ -63,7 +63,7 @@ float set_speed(float motorL, float motorR)
     /* Accelerate forward */
     digitalWrite(RIGHT_FW, HIGH);
     digitalWrite(RIGHT_BW, LOW);
-    analogWrite(RIGHT_ACC, PWM_MAX/2 + int(motorR*PWM_MAX)/2);
+    analogWrite(RIGHT_ACC, PWM_MAX/2 + (int(motorR*PWM_MAX)/2)*SPEED_RED);
   }
   /* If acceleration of right motor is negative */
   else if (motorR < 0)
@@ -71,7 +71,7 @@ float set_speed(float motorL, float motorR)
     /* Accelerate backward */
     digitalWrite(RIGHT_FW, LOW);
     digitalWrite(RIGHT_BW, HIGH);
-    analogWrite(RIGHT_ACC, PWM_MAX/2 + abs(int(motorR*PWM_MAX))/2);
+    analogWrite(RIGHT_ACC, PWM_MAX/2 + (abs(int(motorR*PWM_MAX))/2)*SPEED_RED);
   }
   /* In any other case */
   else

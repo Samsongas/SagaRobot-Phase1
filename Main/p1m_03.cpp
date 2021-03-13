@@ -9,25 +9,26 @@
  * Corrects the rotation if necessary.
  * Advances in a straight line.
  */
-void straight_line_movement()
+void straight_line_movement(unsigned s1d,unsigned s2d,unsigned s3d,unsigned s4d)
 {
-  /* Scan the distance of all sensors */
-  unsigned s1d, s2d, s3d, s4d;
-  s1d = distance_sensor(1);
-  delay(5);
-  s2d = distance_sensor(2);
-  delay(5);
-  s3d = distance_sensor(3);
-  delay(5);
-  s4d = distance_sensor(4);
-  delay(5);
+  // DEBUG
+  Serial.print("\nSensor distances:\n");
+  Serial.print(s1d);
+  Serial.print(" ");
+  Serial.print(s2d);
+  Serial.print(" ");
+  Serial.print(s3d);
+  Serial.print(" ");
+  Serial.print(s4d);
+  Serial.flush();
+  
   /* Calculate side_distance */
   unsigned side_distance = (s3d + s4d)/2;
   /* If front distance is more than 150mm
    * AND side distance is less than the defined
    */
   if (s1d > 150 && s2d > 150 &&
-      s3d < SIDE_DISTANCE && s4d < SIDE_DISTANCE)
+      s4d < SIDE_DISTANCE)
   {
     /* Call P1M_05 to get rotation R radians */
     float rot = get_rotation(s3d, s4d);
@@ -55,14 +56,14 @@ void straight_line_movement()
     /* If rotation is zero */
     else
     {
-      /* If the side distance is greater to 250mm */
-      if (side_distance > 250)
+      /* If the side distance is greater to 300mm */
+      if (s4d > 200)
       {
         /* Advance with a rotation of -10/24 rad/m */
         call_PID(MAX_SPEED, MAX_SPEED*DIFF_DRV, 0, 0);
       }
-      /* Else if the side distance is lower than 150mm */
-      else if (side_distance < 150)
+      /* Else if the side distance is lower than 100mm */
+      else if (side_distance < 100)
       {
         /* Advance with a rotation of 10/24 rad/m */
         call_PID(MAX_SPEED*DIFF_DRV, MAX_SPEED, 0, 0);

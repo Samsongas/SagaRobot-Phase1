@@ -6,8 +6,11 @@
 
 #define SIDE_DISTANCE 350
 
-#define MAX_SPEED 2*M_PI //rad/s
-#define DIFF_DRV 0.976
+#define MAX_SPEED 1.5 * M_PI //rad/s
+/* Value calculated in modules */
+//#define DIFF_DRV 0.976
+/* Value found tuning */
+#define DIFF_DRV 0.8
 /* 
  * Number of GAPS per radian
  * (distance_between_wheels/2) / (pi*wheel_diameter/gaps_per_turn)
@@ -20,6 +23,6 @@
  * Corrects the rotation if necessary.
  * Advances in a straight line.
  */
-void straight_line_movement();
+void straight_line_movement(unsigned s1d,unsigned s2d,unsigned s3d,unsigned s4d);
 
 #endif /* P1M_03_H */

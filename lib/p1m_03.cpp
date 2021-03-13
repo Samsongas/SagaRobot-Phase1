@@ -55,14 +55,14 @@ void straight_line_movement()
     /* If rotation is zero */
     else
     {
-      /* If the side distance is greater to 250mm */
-      if (side_distance > 250)
+      /* If the side distance is greater to 300mm */
+      if (side_distance > 300)
       {
         /* Advance with a rotation of -10/24 rad/m */
         call_PID(MAX_SPEED, MAX_SPEED*DIFF_DRV, 0, 0);
       }
-      /* Else if the side distance is lower than 150mm */
-      else if (side_distance < 150)
+      /* Else if the side distance is lower than 100mm */
+      else if (side_distance < 100)
       {
         /* Advance with a rotation of 10/24 rad/m */
         call_PID(MAX_SPEED*DIFF_DRV, MAX_SPEED, 0, 0);
