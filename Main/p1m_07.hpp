@@ -17,7 +17,7 @@
 #define PWM_MAX 255.0
 
 /* Speed reduction */
-#define SPEED_RED 0.5
+#define SPEED_RED 1.0
 
 /* 
  * Initializes all the pins to their

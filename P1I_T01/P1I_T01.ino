@@ -104,8 +104,15 @@ void setup() {
 }
 
 void loop() {
-  straight_line_movement();
-  rotation_movement();
+  /* Scan the distance of all sensors */
+  unsigned s1d, s2d, s3d, s4d;
+  s1d = distance_sensor(1);
+  s2d = distance_sensor(2);
+  s3d = distance_sensor(3);
+  s4d = distance_sensor(4);
+  /* Move */
+  straight_line_movement(s1d, s2d, s3d, s4d);
+  rotation_movement(s1d, s2d, s3d, s4d);
   delay(1000);
   Serial.flush();
 }

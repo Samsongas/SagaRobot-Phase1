@@ -8,6 +8,12 @@
 
 #define SAMPLE_TIME 100  // in ms
 
+/* 
+ * Number of GAPS per radian
+ * (distance_between_wheels/2) / (pi*wheel_diameter/gaps_per_turn)
+ */
+#define GAPS_PER_RAD (0.13/2)/(M_PI*0.07/20)
+
 /* Prototypes */
 
 void initialize_p1m_02();

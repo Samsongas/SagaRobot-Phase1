@@ -50,20 +50,21 @@ void straight_line_movement(unsigned s1d,unsigned s2d,unsigned s3d,unsigned s4d)
       /* If the rotation is not in range (-pi/6, pi/6) */
       else
       {
-        /* Do nothing */
+        /* Advance straight */
+        call_PID(MAX_SPEED, MAX_SPEED, 0, 0);
       }
     }
     /* If rotation is zero */
     else
     {
-      /* If the side distance is greater to 300mm */
+      /* If the side distance is greater to 200mm */
       if (s4d > 200)
       {
         /* Advance with a rotation of -10/24 rad/m */
         call_PID(MAX_SPEED, MAX_SPEED*DIFF_DRV, 0, 0);
       }
       /* Else if the side distance is lower than 100mm */
-      else if (side_distance < 100)
+      else if (s4d < 100)
       {
         /* Advance with a rotation of 10/24 rad/m */
         call_PID(MAX_SPEED*DIFF_DRV, MAX_SPEED, 0, 0);

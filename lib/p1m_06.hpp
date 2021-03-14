@@ -8,18 +8,14 @@
 /*
 * PID parameters
 */
-#define Default_Ki 10
-#define Default_Kd 1
 #define Default_Kp 1
+#define Default_Ki 0
+#define Default_Kd 0
 #define LEFT_MOTOR 0
 #define RIGHT_MOTOR 1
 
 /* 
- * General PID implementation.
- */
-float PID(float DesiredValue, float ActualValue, byte LeftOrRight);
-/* 
- * Set the motor to the desired speed and distance
+ * Set the motor to the desired speed in rad/s and distance in mm
  * unless distance it's 0, then it works indefinitely
  */
 void call_PID(float dsmL, float dsmR, unsigned ddmL, unsigned ddmR);

@@ -18,7 +18,8 @@ unsigned long CurrentTime2 = 0;
 
 struct encoder
 {
-  double WheelSpeed;
+  double WheelSpeed;//[10];
+  //int wSpCnt = 0;
   unsigned long LastTime;
   unsigned long LastInterrupt;
   bool EnableGaps;
@@ -43,7 +44,7 @@ void ISR_speed_sensor_int(encoder *encoder)
   /* If Gaps counting is enabled */
   if (encoder->EnableGaps)
   {
-    if (micros() - encoder->LastInterrupt > 5000)
+    if (micros() - encoder->LastInterrupt > 10000)
     {
   
       encoder->LastInterrupt = micros();
@@ -90,7 +91,7 @@ void ISR_speed_sensor_R()
 /**
     @brief Return encoder last calculated speed.
     @param *encoder, pointer to the encoder struct variable corresponding with the encoder selected.
-    @retval speed on RPM calculated by the encoder selected.
+    @retval speed on radians per minute calculated by the encoder selected.
 */
 
 double GetSpeed_int(encoder *encoder)
@@ -99,14 +100,16 @@ double GetSpeed_int(encoder *encoder)
 
   double diffTime = CurrentTime2 - encoder->LastTime;
   /*  speed = rotation / time
-      rotation = (Current gaps-Last gaps)*1/20
+      rotation = (Current gaps-Last gaps)/gaps per radian
       time = time difference in ms * 1/60.000 min/ms
-      speed = 3.000*(Current gaps-Last gaps)/(time difference)
+      speed = 60.000*(Current gaps-Last gaps)/(gaps per radian * time difference)
   */
   if (diffTime > SAMPLE_TIME)
   {
 
-    encoder->WheelSpeed = 3000 * (encoder->GapsCount - encoder->LastGapsCount) / diffTime;
+    //encoder->WheelSpeed = 60000 * float(encoder->GapsCount - encoder->LastGapsCount) / (GAPS_PER_RAD * diffTime);
+    /* Debug tuning */
+    encoder->WheelSpeed = 600 * float(encoder->GapsCount - encoder->LastGapsCount) / (GAPS_PER_RAD * diffTime);
     encoder->LastTime = CurrentTime2;
     encoder->LastGapsCount = encoder->GapsCount;
 

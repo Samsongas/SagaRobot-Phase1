@@ -10,8 +10,8 @@ float get_rotation(unsigned s3d, unsigned s4d)
   /* Initial guess is that the robot is straight */
   float angle = 0.0;
   /* If the difference between the distances 
-   * given by the sensors is less than 10mm */
-  if ( abs(int(s3d) - int(s4d)) > 10 )
+   * given by the sensors is less than 20mm */
+  if ( abs(int(s3d) - int(s4d)) > 20 )
   {
     /* If obstacle sensed by sensor 4 is further
      * than the one sensed by sensor 3 */

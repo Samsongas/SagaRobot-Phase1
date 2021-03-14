@@ -8,9 +8,9 @@
 
 #define MAX_SPEED 1.5 * M_PI //rad/s
 /* Value calculated in modules */
-//#define DIFF_DRV 0.976
+#define DIFF_DRV 0.976
 /* Value found tuning */
-#define DIFF_DRV 0.8
+//#define DIFF_DRV 0.85
 /* 
  * Number of GAPS per radian
  * (distance_between_wheels/2) / (pi*wheel_diameter/gaps_per_turn)

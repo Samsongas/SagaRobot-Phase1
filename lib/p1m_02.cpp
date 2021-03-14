@@ -99,14 +99,16 @@ double GetSpeed_int(encoder *encoder)
 
   double diffTime = CurrentTime2 - encoder->LastTime;
   /*  speed = rotation / time
-      rotation = (Current gaps-Last gaps)*1/20
+      rotation = (Current gaps-Last gaps)/gaps per radian
       time = time difference in ms * 1/60.000 min/ms
-      speed = 3.000*(Current gaps-Last gaps)/(time difference)
+      speed = 60.000*(Current gaps-Last gaps)/(gaps per radian * time difference)
   */
   if (diffTime > SAMPLE_TIME)
   {
 
-    encoder->WheelSpeed = 3000 * (encoder->GapsCount - encoder->LastGapsCount) / diffTime;
+    //encoder->WheelSpeed = 60000 * float(encoder->GapsCount - encoder->LastGapsCount) / (GAPS_PER_RAD * diffTime);
+    /* Debug tuning */
+    encoder->WheelSpeed = 600 * float(encoder->GapsCount - encoder->LastGapsCount) / (GAPS_PER_RAD * diffTime);
     encoder->LastTime = CurrentTime2;
     encoder->LastGapsCount = encoder->GapsCount;
 

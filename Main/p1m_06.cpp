@@ -53,21 +53,6 @@ float PID(float DesiredValue, float ActualValue, byte LeftOrRight)
   return error;
   
 //  float PID_Output = (Kp * error + Ki * ierror + Kd * derror);
-// 
-//  if (PID_Output > PWM_MAX)
-//  {
-//    PID_Output = PWM_MAX;
-//  }
-//  else if (PID_Output < 0.1)
-//  {
-//    PID_Output = 0.1;
-//  }
-//  else
-//  {
-//    // MISRA C++ 2008
-//  }
-//    
-//  return PID_Output;
 }
 
 /* Set speed and direction,

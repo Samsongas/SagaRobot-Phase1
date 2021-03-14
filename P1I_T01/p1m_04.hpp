@@ -6,7 +6,7 @@
 
 #define SIDE_DISTANCE 350
 
-#define MAX_SPEED 2*M_PI //rad/s
+#define MAX_SPEED 1.5 * M_PI //rad/s
 /* 
  * Number of GAPS per radian
  * (distance_between_wheels/2) / (pi*wheel_diameter/gaps_per_turn)
@@ -26,6 +26,6 @@
  * Else, checks if there is an obstacle in front.
  * If true, turns left and keeps advancing.
  */
-void rotation_movement();
+void rotation_movement(unsigned s1d,unsigned s2d,unsigned s3d,unsigned s4d);
 
 #endif /* P1M_04_H */
